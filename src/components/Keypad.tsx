@@ -12,9 +12,6 @@ const Keypad = ({ char, handleKeypadRotor }: KeypadProps) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === char.toLowerCase() || event.key === char) {
-        const audio = new Audio("/keypad.mp3");
-        audio.play();
-        handleKeypadRotor(char);
         setIsActive(true);
       }
     };
@@ -26,11 +23,11 @@ const Keypad = ({ char, handleKeypadRotor }: KeypadProps) => {
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
   }, [char]);
+
+  useEffect(() => {
+    if (isActive) onClick();
+  }, [isActive]);
 
   const onClick = () => {
     const audio = new Audio("/keypad.mp3");

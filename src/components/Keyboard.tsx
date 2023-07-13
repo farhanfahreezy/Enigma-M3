@@ -1,7 +1,7 @@
 import Keypad from "./Keypad";
 
 interface KeyboardProps {
-  handleKeypadRotor: () => void;
+  handleKeypadRotor: (s: string) => void;
 }
 const Keyboard = ({ handleKeypadRotor }: KeyboardProps) => {
   const top = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
