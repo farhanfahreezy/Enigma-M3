@@ -38,7 +38,7 @@ const Keypad = ({ char, handleKeypadRotor }: KeypadProps) => {
     <button
       className={`${
         isActive ? "bg-gray-500" : "bg-black"
-      } w-[30px] sm:w-[40px] aspect-square bg-black text-[16px] sm:text-[20px] font-medium rounded-md hover:bg-gray-800 active:bg-gray-500 select-none transition-all`}
+      } w-[30px] sm:w-[40px] aspect-square bg-black text-[16px] sm:text-[20px] font-medium rounded-md hover:bg-gray-800 active:bg-gray-500 select-none transition-all shadow-xl`}
       onClick={onClick}
     >
       {char}

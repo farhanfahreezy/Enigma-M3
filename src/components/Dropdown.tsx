@@ -4,16 +4,26 @@ interface DropdownProps {
   title: string;
   option: string[];
   onClick: (s: string) => void;
+  width?: string;
+  modalHeight?: string;
 }
 
-const Dropdown = ({ title, option, onClick }: DropdownProps) => {
+const Dropdown = ({
+  title,
+  option,
+  onClick,
+  width,
+  modalHeight,
+}: DropdownProps) => {
   const [openOption, setOpenOption] = useState(false);
   return (
     <div className="relative inline-block text-left">
       <div>
         <button
           type="button"
-          className="inline-flex w-[80px] justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          className={`inline-flex ${
+            width ? `w-[${width}]` : "w-[80px]"
+          } justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50`}
           onClick={() => {
             setOpenOption(!openOption);
           }}
@@ -36,7 +46,9 @@ const Dropdown = ({ title, option, onClick }: DropdownProps) => {
 
       {openOption && (
         <div
-          className="absolute right-0 z-10 mt-2 w-[fit] h-fit max-h-[400px] overflow-y-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          className={`absolute right-0 z-10 mt-2 w-[fit] h-fit ${
+            modalHeight ? `max-h-[${modalHeight}]` : "max-h-[400px]"
+          } overflow-y-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"

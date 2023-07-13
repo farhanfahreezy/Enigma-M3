@@ -18,6 +18,8 @@ import {
   ShiftInt,
 } from "./algorithm/HelperFunction";
 import Output from "./components/Output";
+import Step from "./components/Step";
+import Plugboard from "./components/Plugboard";
 
 interface Rotor {
   rotorMap: Map<number, number>;
@@ -32,15 +34,23 @@ const App = () => {
   const [rightRotor, setRightRotor] = useState<Rotor>(Rotor3());
   const reflector: Map<number, number> = UKWB();
   const entryDisc: Map<number, number> = ETW();
+  const [plugboard, setPlugbloard] = useState<Map<number, number>>(
+    new Map<number, number>()
+  );
   const [selectedChar, setSelectedChar] = useState("");
   const [activeLamp, setActiveLamp] = useState("");
   const [longInput, setLongInput] = useState("");
   const [longOutput, setLongOutput] = useState("");
+  const [stepOutput, setStepOutput] = useState<string[]>([]);
 
   // HOOKS
   useEffect(() => {
     if (selectedChar !== "") encrypt(selectedChar);
   }, [leftRotor, midRotor, rightRotor, selectedChar]);
+
+  useEffect(() => {
+    console.log(plugboard);
+  }, [plugboard]);
 
   // FUNCTION
   const handleKeypadRotor = (s: string) => {
@@ -83,8 +93,10 @@ const App = () => {
     numStr = entryDisc.get(numStr)!;
 
     // PLUGBOARD
-    // tambahin nanti
-    outputStr += "Plugboard In : " + s + "\n";
+    if (plugboard.has(numStr)) {
+      numStr = plugboard.get(numStr)!;
+    }
+    outputStr += "Plugboard In : " + IntToChar(numStr) + "\n";
 
     // RIGHT WHEELS
     numStr = ShiftInt(
@@ -144,15 +156,17 @@ const App = () => {
     outputStr += "Right Wheel 2  : " + IntToChar(numStr) + "\n";
 
     // PLUGBOARD
-    // tambahin nanti
-    outputStr += "Plugboard Out: " + IntToChar(numStr) + "\n";
+    if (plugboard.has(numStr)) {
+      numStr = plugboard.get(numStr)!;
+    }
+    outputStr += "Plugboard In : " + IntToChar(numStr) + "\n";
 
     // ENTRY DISC
     numStr = entryDisc.get(numStr)!;
 
     const answer = IntToChar(numStr);
     outputStr += "Output: " + answer + "\n";
-    console.log(outputStr);
+    setStepOutput([...stepOutput, outputStr]);
 
     setActiveLamp(answer);
     const newLongOutput = longOutput + answer;
@@ -211,8 +225,25 @@ const App = () => {
     });
   };
 
+  const handleAddPlugboard = (plug1: number, plug2: number) => {
+    const newPlugboard = new Map(Array.from(plugboard));
+    for (const [key, value] of newPlugboard) {
+      if (
+        key === plug1 ||
+        value === plug1 ||
+        key === plug2 ||
+        value === plug2
+      ) {
+        newPlugboard.delete(key);
+      }
+    }
+    newPlugboard.set(plug1, plug2);
+    newPlugboard.set(plug2, plug1);
+    setPlugbloard(newPlugboard);
+  };
+
   return (
-    <div className="w-screen min-h-screen overflow-x-hidden flex flex-col items-center justify-center bg-black text-white font-inter gap-5">
+    <div className="w-screen min-h-screen overflow-x-hidden flex flex-col items-center justify-center bg-black text-white font-inter gap-5 py-10">
       <div className="sm:text-[36px] font-medium">ENIGMA M3 SIMULATOR</div>
       {/* ROTORS */}
       <RotorSetting
@@ -221,12 +252,34 @@ const App = () => {
         rightRotor={rightRotor!}
         handleChangeSetting={handleChangeSetting}
       />
+
       {/* LAMPS */}
       <Keylamp activeChar={activeLamp} />
-      {/* KEYBOARDS */}
-      <Keyboard handleKeypadRotor={handleKeypadRotor} />
+
+      {/* KEYBOARDS & PLUGBOARD */}
+      <div className="flex flex-col gap-2">
+        <Keyboard handleKeypadRotor={handleKeypadRotor} />
+        <Plugboard
+          plugboard={plugboard}
+          handleAddPlugboard={handleAddPlugboard}
+        />
+      </div>
+
       {/* OUTPUT */}
-      <Output input={longInput} output={longOutput} />
+      <div className="flex flex-col w-full items-center justify-center gap-2 px-2">
+        <Output input={longInput} output={longOutput} />
+        <Step steps={stepOutput} />
+        <button
+          onClick={() => {
+            setLongInput("");
+            setLongOutput("");
+            setStepOutput([]);
+          }}
+          className="px-4 py-2 border-[1px] font-medium border-white rounded-xl hover:bg-white hover:text-black hover:scale-105 active:scale-95 transition-all"
+        >
+          Clear Output
+        </button>
+      </div>
     </div>
   );
 };
