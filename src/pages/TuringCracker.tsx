@@ -42,7 +42,7 @@ const TuringCracker = () => {
             value={encryptedMessage}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setEncryptedMessage(
-                e.target.value.replace(" ", "").toUpperCase()
+                e.target.value.split(" ").join("").toUpperCase()
               );
             }}
           />
@@ -54,7 +54,7 @@ const TuringCracker = () => {
             placeholder="Write something here..."
             value={knownMessage}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setKnownMessage(e.target.value.replace(" ", "").toUpperCase());
+              setKnownMessage(e.target.value.split(" ").join("").toUpperCase());
             }}
           />
         </div>
