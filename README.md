@@ -1,10 +1,10 @@
-# Seanema | A Brand-New Movie Ticket Booking App
+# Enigma M3
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-Tired of queueing for a movie ticket? Introducing Seanema, our innovative web app powered by Next.js, TypeScript, Prisma, and MongoDB. With Seanema, say goodbye to long lines and hello to seamless movie ticket booking. Each user enjoys a personalized account with balances and transaction histories, providing ultimate convenience. Browse a wide array of movies, effortlessly book tickets, and even refund them if plans change. Seanema also offers easy top-up and withdrawal options, putting you in complete control. Say hello to hassle-free movie magic with Seanema, your go-to movie ticket booking app.
+A simulator for enigma machine and enigma decoder
 
 ## Installation
 
